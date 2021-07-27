@@ -1,10 +1,16 @@
 import React from "react";
 import { Web } from "./components/pages/Web";
+import styled from "styled-components";
+
+const Container = styled.div`
+  font-family: Rubik;
+`;
+
 function App() {
   return (
-    <div className="App">
+    <Container>
       <Web></Web>
-    </div>
+    </Container>
   );
 }
 
