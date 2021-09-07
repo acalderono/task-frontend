@@ -23,12 +23,14 @@ export const Section = styled.section`
   padding-left: 1rem;
   user-select: none;
   background: rgb(248, 248, 248);
+  overflow: scroll;
 `;
 
 export const Wrapper = styled.div`
   position: relative;
   width: 100%;
   max-width: 15em;
+  min-width: 15em;
   text-align: center;
   background-color: white;
   margin: 1rem 0.5rem;
@@ -124,5 +126,75 @@ export const ProjectHour = styled.div`
   &:after {
     content: "/HH";
     color: ${theme.color.tertiary};
+  }
+`;
+
+export const Table = styled.table`
+  display: grid;
+  border-collapse: collapse;
+  min-width: 100%;
+  font-size: 0.8rem;
+  grid-template-columns: [equipo] 10rem [nombre] 10rem [proyecto] 0.5fr [hora] 0.2fr;
+  margin-right: 1em;
+  margin-left: 1em;
+`;
+export const THead = styled.thead`
+  display: contents;
+`;
+export const TBody = styled.tbody`
+  display: contents;
+`;
+export const Tr = styled.tr`
+  display: contents;
+`;
+export const Td = styled.td`
+  padding: 5px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+export const Th = styled.th`
+  padding: 5px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const Project = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+// export const Letter = <styled className="div attrs"></styled>
+// [data-letters]:before {
+//   content:attr(data-letters);
+//   display:inline-block;
+//   font-size:1em;
+//   width:2.5em;
+//   height:2.5em;
+//   line-height:2.5em;
+//   text-align:center;
+//   border-radius:50%;
+//   background:plum;
+//   vertical-align:middle;
+//   margin-right:1em;
+//   color:white;
+//   }
+
+export const Letter = styled.div.attrs((props) => ({
+  "data-letters": props.letters,
+}))`
+  &:before {
+    content: attr(data-letters);
+    display: inline-block;
+    font-size: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    text-align: center;
+    border-radius: 50%;
+    background: ${(props) => (props.color ? props.color : "pink")};
+    vertical-align: middle;
+    margin-right: 1em;
+    color: white;
   }
 `;
