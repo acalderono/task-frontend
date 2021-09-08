@@ -55,7 +55,30 @@ export const Web = () => {
       );
 
       const { data } = await r.json().then();
+
       const uniqaAssig = [...new Set(data.map((o) => o.assignment))];
+      const newData = [...data];
+      console.log(data);
+
+      const sortedData = newData.sort((a, b) =>
+        a.customer > b.customer ? 1 : -1
+      );
+
+      let orderedData = [];
+      for (let [index, value] of sortedData.entries()) {
+        if (
+          value.customer &&
+          sortedData[index + 1] &&
+          value.customer === sortedData[index + 1].customer &&
+          value.week === sortedData[index + 1].week
+        ) {
+          orderedData.push({
+            assignment: value.assignment,
+            customer: value.customer,
+            hours: value.hours + sortedData[index + 1].hours,
+          });
+        }
+      }
 
       let newAssignment = [];
       uniqaAssig.forEach((assig) => {
@@ -63,8 +86,8 @@ export const Web = () => {
           .filter((o) => o.assignment === assig)
           .map((o) => o.hours)
           .reduce((a, b) => a + b, 0);
-
-        const projects = data.filter((o) => o.assignment === assig);
+        //  const projects = data.filter((o) => o.assignment === assig);
+        const projects = orderedData.filter((o) => o.assignment === assig);
         // .map((o) => o.hours)
         // .reduce((a, b) => a + b, 0);
         console.log(projects);
@@ -80,7 +103,7 @@ export const Web = () => {
 
       setCustomers(newAssignment);
       setLoading(false);
-      console.log(newAssignment);
+      console.log("asd" + newAssignment);
     };
     getFetchCustomer();
 
