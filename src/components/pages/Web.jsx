@@ -103,7 +103,7 @@ export const Web = () => {
 
       setCustomers(newAssignment);
       setLoading(false);
-      console.log("asd" + newAssignment);
+      console.log(newAssignment);
     };
     getFetchCustomer();
 
@@ -225,7 +225,37 @@ const Card = (props) => {
       );
 
       let { data } = await r.json().then();
-      setProjects(sortByHours(data));
+      const newData = [...data];
+
+      const sortedData = newData.sort((a, b) =>
+        a.project > b.project ? 1 : -1
+      );
+      let orderedData = [];
+      for (let [index, value] of sortedData.entries()) {
+        if (
+          value.project &&
+          sortedData[index + 1] &&
+          value.project === sortedData[index + 1].project &&
+          value.week === sortedData[index + 1].week
+        ) {
+          orderedData.push({
+            assignment: value.assignment,
+            customer: value.customer,
+            hours: value.hours + sortedData[index + 1].hours,
+            project: value.project
+          });
+        } else {
+          orderedData.push({
+            assignment: value.assignment,
+            customer: value.customer,
+            hours: value.hours,
+            project: value.project
+          });
+        }
+      }
+      const result = orderedData.filter((v,i,a)=>a.findIndex(t=>(t.project === v.project))===i)
+
+      setProjects(sortByHours(result));
       setLoading(false);
     };
 
@@ -305,7 +335,6 @@ const TableSection = () => {
         week: o.week,
         project: o.project,
       }));
-
       console.log(groupBy(data, "user"));
 
       setUsers(list);
