@@ -54,7 +54,7 @@ export const Web = () => {
         }
       );
 
-      const { data } = await r.json().then();
+      let { data } = await r.json().then();
 
       const uniqaAssig = [...new Set(data.map((o) => o.assignment))];
       const newData = [...data];
@@ -64,6 +64,7 @@ export const Web = () => {
         a.customer > b.customer ? 1 : -1
       );
 
+      console.log(sortedData)
       let orderedData = [];
       for (let [index, value] of sortedData.entries()) {
         if (
@@ -77,8 +78,15 @@ export const Web = () => {
             customer: value.customer,
             hours: value.hours + sortedData[index + 1].hours,
           });
+        } else {
+          orderedData.push({
+          assignment: value.assignment,
+          customer: value.customer,
+          hours: value.hours,
+          });
         }
       }
+      const result = orderedData.filter((v,i,a)=>a.findIndex(t=>(t.customer === v.customer))===i)
 
       let newAssignment = [];
       uniqaAssig.forEach((assig) => {
@@ -87,7 +95,7 @@ export const Web = () => {
           .map((o) => o.hours)
           .reduce((a, b) => a + b, 0);
         //  const projects = data.filter((o) => o.assignment === assig);
-        const projects = orderedData.filter((o) => o.assignment === assig);
+        const projects = result.filter((o) => o.assignment === assig);
         // .map((o) => o.hours)
         // .reduce((a, b) => a + b, 0);
         console.log(projects);
@@ -230,6 +238,7 @@ const Card = (props) => {
       const sortedData = newData.sort((a, b) =>
         a.project > b.project ? 1 : -1
       );
+      console.log(sortedData)
       let orderedData = [];
       for (let [index, value] of sortedData.entries()) {
         if (
