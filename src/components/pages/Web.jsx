@@ -64,7 +64,7 @@ export const Web = () => {
         a.customer > b.customer ? 1 : -1
       );
 
-      console.log(sortedData)
+      console.log(sortedData);
       let orderedData = [];
       for (let [index, value] of sortedData.entries()) {
         if (
@@ -74,19 +74,23 @@ export const Web = () => {
           value.week === sortedData[index + 1].week
         ) {
           orderedData.push({
+            is_customer: value.assignment === "Cliente" ? true : false,
             assignment: value.assignment,
             customer: value.customer,
             hours: value.hours + sortedData[index + 1].hours,
           });
         } else {
           orderedData.push({
-          assignment: value.assignment,
-          customer: value.customer,
-          hours: value.hours,
+            is_customer: value.assignment === "Cliente" ? true : false,
+            assignment: value.assignment,
+            customer: value.customer,
+            hours: value.hours,
           });
         }
       }
-      const result = orderedData.filter((v,i,a)=>a.findIndex(t=>(t.customer === v.customer))===i)
+      const result = orderedData.filter(
+        (v, i, a) => a.findIndex((t) => t.customer === v.customer) === i
+      );
 
       let newAssignment = [];
       uniqaAssig.forEach((assig) => {
@@ -94,12 +98,7 @@ export const Web = () => {
           .filter((o) => o.assignment === assig)
           .map((o) => o.hours)
           .reduce((a, b) => a + b, 0);
-        //  const projects = data.filter((o) => o.assignment === assig);
         const projects = result.filter((o) => o.assignment === assig);
-        // .map((o) => o.hours)
-        // .reduce((a, b) => a + b, 0);
-        console.log(projects);
-
         let addNew = {
           assignment: assig,
           is_customer: assig === "Cliente" ? true : false,
@@ -111,7 +110,6 @@ export const Web = () => {
 
       setCustomers(newAssignment);
       setLoading(false);
-      console.log(newAssignment);
     };
     getFetchCustomer();
 
@@ -238,7 +236,6 @@ const Card = (props) => {
       const sortedData = newData.sort((a, b) =>
         a.project > b.project ? 1 : -1
       );
-      console.log(sortedData)
       let orderedData = [];
       for (let [index, value] of sortedData.entries()) {
         if (
@@ -251,18 +248,20 @@ const Card = (props) => {
             assignment: value.assignment,
             customer: value.customer,
             hours: value.hours + sortedData[index + 1].hours,
-            project: value.project
+            project: value.project,
           });
         } else {
           orderedData.push({
             assignment: value.assignment,
             customer: value.customer,
             hours: value.hours,
-            project: value.project
+            project: value.project,
           });
         }
       }
-      const result = orderedData.filter((v,i,a)=>a.findIndex(t=>(t.project === v.project))===i)
+      const result = orderedData.filter(
+        (v, i, a) => a.findIndex((t) => t.project === v.project) === i
+      );
 
       setProjects(sortByHours(result));
       setLoading(false);
@@ -344,11 +343,9 @@ const TableSection = () => {
         week: o.week,
         project: o.project,
       }));
-      console.log(groupBy(data, "user"));
 
       setUsers(list);
       setLoading(false);
-      console.log(list);
     };
 
     getFetch();
